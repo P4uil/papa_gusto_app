@@ -44,8 +44,10 @@ class MyDrawer extends StatelessWidget {
           MyDrawerTile(
               text: 'НАСТРОЙКИ',
               icon: Icons.settings,
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SettingsPage()))),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SettingsPage()))),
 
           const Spacer(),
 

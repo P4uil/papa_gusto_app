@@ -100,7 +100,7 @@ class _RegisterPageState extends State<RegisterPage> {
             //password textfield
             MyTextField(
               controller: passwordController,
-              hintText: "Password",
+              hintText: "Пароль",
               obscureText: true,
             ),
 
@@ -110,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
             MyTextField(
               controller: confirmPasswordController,
-              hintText: "Confirm psssword",
+              hintText: "Повторите пароль",
               obscureText: true,
             ),
 

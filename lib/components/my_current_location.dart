@@ -11,7 +11,8 @@ class MyCurrentLocation extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Ваше место нахождения'),
+        //add current user geolocation
+        title: const Text('Введите адрес'),
         content: TextField(
           controller: textController,
           decoration: const InputDecoration(hintText: "Введите адрес"),
@@ -48,7 +49,7 @@ class MyCurrentLocation extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Deliver now',
+            'Доставка',
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
           GestureDetector(

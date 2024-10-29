@@ -28,7 +28,7 @@ class MyReciept extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 25),
-            const Text('Примерное время доставки:'),
+            // const Text('Примерное время доставки:'),
           ],
         ),
       ),

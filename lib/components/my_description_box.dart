@@ -28,21 +28,18 @@ class MyDescriptionBox extends StatelessWidget {
           Column(
             children: [
               Text(
-                '\$0.99',
+                '500₸',
                 style: myPrimaryTextStyle,
               ),
-              Text('Delivery fee', style: mySecondaryTextStyle)
+              Text('Стоимость доставки', style: mySecondaryTextStyle)
             ],
           ),
 
           //delivery time
           Column(
             children: [
-              Text(
-                '15 - 30 min',
-                style: myPrimaryTextStyle,
-              ),
-              Text('Delivery time', style: mySecondaryTextStyle)
+              Text('≈ 45 минут', style: myPrimaryTextStyle),
+              Text('Время доставки', style: mySecondaryTextStyle)
             ],
           ),
         ],

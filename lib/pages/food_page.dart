@@ -66,7 +66,7 @@ class _FoodPageState extends State<FoodPage> {
 
                       //food price
                       Text(
-                        widget.food.price.toString() + '₸',
+                        '${widget.food.price}₸',
                         style: TextStyle(
                             fontSize: 16,
                             color: Theme.of(context).colorScheme.primary),
@@ -79,22 +79,22 @@ class _FoodPageState extends State<FoodPage> {
 
                       const SizedBox(height: 10),
 
-                      Divider(
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
+                      // Divider(
+                      //   color: Theme.of(context).colorScheme.secondary,
+                      // ),
 
-                      const SizedBox(height: 10),
+                      // const SizedBox(height: 10),
 
-                      //addons
-                      Text(
-                        "Add-ons",
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
+                      // //addons
+                      // Text(
+                      //   "Add-ons",
+                      //   style: TextStyle(
+                      //       color: Theme.of(context).colorScheme.inversePrimary,
+                      //       fontSize: 16,
+                      //       fontWeight: FontWeight.bold),
+                      // ),
 
-                      const SizedBox(height: 10),
+                      // const SizedBox(height: 10),
 
                       Container(
                         decoration: BoxDecoration(
@@ -115,7 +115,7 @@ class _FoodPageState extends State<FoodPage> {
                               return CheckboxListTile(
                                 title: Text(addon.name),
                                 subtitle: Text(
-                                  addon.price.toString() + '₸',
+                                  '${addon.price}₸',
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -137,7 +137,7 @@ class _FoodPageState extends State<FoodPage> {
                 //button -> add to cart
                 MyButton(
                     onTap: () => addToCart(widget.food, widget.selectedAddons),
-                    text: 'Add to cart'),
+                    text: 'Добавить в корзину'),
 
                 const SizedBox(height: 25),
               ],

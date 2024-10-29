@@ -31,7 +31,7 @@ class _DeliveryProgressPageState extends State<DeliveryProgressPage> {
         backgroundColor: Colors.transparent,
       ),
       bottomNavigationBar: _buildBottomNavBar(context),
-      body: Column(
+      body: const Column(
         children: [
           MyReciept(),
         ],

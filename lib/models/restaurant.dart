@@ -86,7 +86,8 @@ class Restaurant extends ChangeNotifier {
   final List<CartItem> _cart = [];
 
   //delivery address (which user can change/update)
-  String _deliveryAddress = 'Anet Baba 11/1';
+  //add user current location
+  String _deliveryAddress = 'Введите адрес';
 
   //getters
   List<Food> get menu => _menu;
@@ -104,7 +105,7 @@ class Restaurant extends ChangeNotifier {
 
       //check if the list of selected addons are the same
       bool isSameAddons =
-          ListEquality().equals(item.selectedAddons, selectedAddons);
+          const ListEquality().equals(item.selectedAddons, selectedAddons);
 
       return isSameFood && isSameAddons;
     });
@@ -197,20 +198,26 @@ class Restaurant extends ChangeNotifier {
     receipt.writeln('------------');
 
     for (final cartItem in _cart) {
+      // Рассчитайте общую цену для данного товара с учетом количества
+      final totalPrice = cartItem.quantity * cartItem.food.price;
+
+      // Печатаем количество, название и общую цену для позиции
       receipt.writeln(
-          '${cartItem.quantity} x ${cartItem.food.name} - ${_formatPrice(cartItem.food.price)}');
+          '${cartItem.quantity} x ${cartItem.food.name} - ${_formatPrice(totalPrice)}');
+
       if (cartItem.selectedAddons.isNotEmpty) {
         receipt
             .writeln('  Дополнения: ${_formatAddons(cartItem.selectedAddons)}');
       }
       receipt.writeln();
     }
+
     receipt.writeln('------------');
     receipt.writeln();
     receipt.writeln('Всего позиций: ${getTotalItemCount()}');
     receipt.writeln('Итого: ${_formatPrice(getTotalPrice())}');
     receipt.writeln();
-    receipt.writeln('Доставка: $deliveryAddress ');
+    receipt.writeln('Доставка: $deliveryAddress');
 
     return receipt.toString();
   }

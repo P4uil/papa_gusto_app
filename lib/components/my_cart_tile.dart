@@ -44,7 +44,7 @@ class MyCartTile extends StatelessWidget {
 
                             //food price
                             Text(
-                              cartItem.food.price.toString() + '₸',
+                              '${cartItem.food.price}₸',
                               style: TextStyle(
                                   color: Theme.of(context).colorScheme.primary),
                             ),
@@ -87,7 +87,7 @@ class MyCartTile extends StatelessWidget {
                                     Text(addon.name),
 
                                     //addon price
-                                    Text(addon.price.toString() + ''),
+                                    Text('${addon.price}'),
                                   ],
                                 ),
                                 shape: StadiumBorder(
