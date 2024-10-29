@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "45329696681",
+    "project_id": "food-delivery-9679b",
+    "storage_bucket": "food-delivery-9679b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45329696681:android:c3b595c400fc2f79da26b8",
+        "android_client_info": {
+          "package_name": "com.papa.gusto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBOIdjo1ruuqgaBN0XrRiVwh23oOidSII"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45329696681:android:166695b04b61ffacda26b8",
+        "android_client_info": {
+          "package_name": "com.papagusto.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBOIdjo1ruuqgaBN0XrRiVwh23oOidSII"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
