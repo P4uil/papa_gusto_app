@@ -8,76 +8,198 @@ class Restaurant extends ChangeNotifier {
   //list of food menu
   final List<Food> _menu = [
     //pizzas
-    Food(
-        name: 'Маргарита',
-        description:
-            '(Тонкое тесто, соус из свежих томатов, моцарелла, ароматный базилик)',
-        imagePath: 'lib/images/pizzas/margarita.png',
-        price: 4000,
-        availableAddons: [],
-        category: FoodCategory.pizzas),
 
     Food(
         name: 'Пепперони',
         description:
-            '(Тонкое тесто, салями из говядины, соус из свежих томатов, моцарелла)',
+            'Тонкое тесто, салями из говядины, соус из свежих томатов, моцарелла',
         imagePath: 'lib/images/pizzas/peperoni.png',
-        price: 4000,
-        availableAddons: [],
-        category: FoodCategory.pizzas),
-
-    Food(
-        name: 'Ветчина и грибы',
-        description:
-            '(Тонкое тесто, ветчина из индейки, грибы шампиньоны, моцарелла, сливочный соус)',
-        imagePath: 'lib/images/pizzas/hamandmushrums.png',
-        price: 4000,
-        availableAddons: [],
-        category: FoodCategory.pizzas),
-
-    Food(
-        name: 'Сырная',
-        description: '(Тонкое тесто, моцарелла, пармезан, чедр, сыр дорБлю)',
-        imagePath: 'lib/images/pizzas/cheeasy.png',
-        price: 4000,
-        availableAddons: [],
-        category: FoodCategory.pizzas),
-
-    Food(
-        name: 'Болоньезе',
-        description:
-            '(Тонкое тесто, говяжий фарш, базилик, сливочный соус, моцарелла )',
-        imagePath: 'lib/images/pizzas/baloneze.png',
-        price: 4000,
+        price: 2800,
         availableAddons: [],
         category: FoodCategory.pizzas),
 
     Food(
         name: 'Трюфельная пицца',
         description:
-            '(Тонкое тесто, трюфельная паста, шампиньоны, сливочный соус, моцарелла)',
+            'Тонкое тесто, трюфельная паста, шампиньоны, сливочный соус, моцарелла',
         imagePath: 'lib/images/pizzas/truffle.png',
-        price: 4000,
+        price: 3300,
         availableAddons: [],
         category: FoodCategory.pizzas),
 
-    //panaucio
+    Food(
+        name: 'Маргарита',
+        description:
+            'Тонкое тесто, соус из свежих томатов, моцарелла, ароматный базилик',
+        imagePath: 'lib/images/pizzas/margarita.png',
+        price: 2100,
+        availableAddons: [],
+        category: FoodCategory.pizzas),
+
+    Food(
+        name: 'Сырная пицца',
+        description: 'Тонкое тесто, моцарелла, пармезан, чедр, сыр дорБлю',
+        imagePath: 'lib/images/pizzas/cheeasy.png',
+        price: 3100,
+        availableAddons: [],
+        category: FoodCategory.pizzas),
+
+    Food(
+        name: 'Тоскана',
+        description:
+            'Тонкое тесто, куриная грудка, черри, сыр салякис, слвочеый соус, руккола',
+        imagePath: 'lib/images/pizzas/toscana.png',
+        price: 3500,
+        availableAddons: [],
+        category: FoodCategory.pizzas),
+
+    Food(
+        name: 'Пицца гарганзоль и груша',
+        description:
+            'Тонкое тесто, груша, сыр дорБлю, моцарелла, сливочный соус',
+        imagePath: 'lib/images/pizzas/pear.png',
+        price: 3100,
+        availableAddons: [],
+        category: FoodCategory.pizzas),
+
+    Food(
+        name: 'Болоньезе',
+        description:
+            'Тонкое тесто, говяжий фарш, базилик, сливочный соус, моцарелла',
+        imagePath: 'lib/images/pizzas/baloneze.png',
+        price: 3300,
+        availableAddons: [],
+        category: FoodCategory.pizzas),
+
+    Food(
+        name: 'Дубайская',
+        description:
+            'Тонкое тесто, куриная грудка, ананас, сыр дорБлю, сливочный соус',
+        imagePath: 'lib/images/pizzas/dubai.png',
+        price: 3500,
+        availableAddons: [],
+        category: FoodCategory.pizzas),
+
+    Food(
+        name: 'Ветчина с грибами',
+        description:
+            'Тонкое тесто, ветчина из индейки, грибы шампиньоны, моцарелла, сливочный соус',
+        imagePath: 'lib/images/pizzas/hamandmushrums.png',
+        price: 3300,
+        availableAddons: [],
+        category: FoodCategory.pizzas),
+
+    //sides
     Food(
         name: 'Панауцио Альфредо',
         description:
-            '(Куриная грудка, сливочно грибной соус, руккола, томаты свежие, бальзамический крем)',
-        imagePath: 'lib/images/sides/panuoccoalfredo.png',
-        price: 4000,
+            'Куриная грудка, сливочно грибной соус, руккола, томаты свежие, бальзамический крем',
+        imagePath: 'lib/images/sides/palfredo.png',
+        price: 1800,
         availableAddons: [],
-        category: FoodCategory.panaucio),
+        category: FoodCategory.sides),
+
+    Food(
+        name: 'Панауцио с ветчиной и трюфелем',
+        description:
+            'Ветчина из индейки, трюфельная паста, руккола, томаты свежие, бальзамический крем',
+        imagePath: 'lib/images/sides/phamandtruffle.png',
+        price: 3300,
+        availableAddons: [],
+        category: FoodCategory.sides),
+
+    Food(
+        name: 'Панауцио с томленой говядиной',
+        description:
+            'Томленая говядина, томаты свежие, домашний майонез, лук фиолетовый, руккола, бальзамический крем',
+        imagePath: 'lib/images/sides/pbeef.png',
+        price: 2800,
+        availableAddons: [],
+        category: FoodCategory.sides),
+
+    Food(
+        name: 'Фри (лодочки)',
+        description: '',
+        imagePath: 'lib/images/sides/potato.png',
+        price: 1000,
+        availableAddons: [],
+        category: FoodCategory.sides),
+
+    Food(
+        name: 'Нагетсы',
+        description: '',
+        imagePath: 'lib/images/sides/nugets.png',
+        price: 1200,
+        availableAddons: [],
+        category: FoodCategory.sides),
 
     //sushi
     Food(
         name: 'Филадельфия ролл',
-        description:
-            '(Суши рис, лосось охлажденный, огурцы свежие, кремета сыр)',
+        description: 'Суши рис, лосось охлажденный, огурцы свежие, кремета сыр',
         imagePath: 'lib/images/sushi/filadelfia.png',
-        price: 4000,
+        price: 3200,
+        availableAddons: [],
+        category: FoodCategory.sushi),
+
+    Food(
+        name: 'Поцелуй гейши',
+        description:
+            'Суши рис, угорь, лосось, свежие огурцы, кремета, икра тобико, унаги соус, кунжут',
+        imagePath: 'lib/images/sushi/geishaskiss.png',
+        price: 3900,
+        availableAddons: [],
+        category: FoodCategory.sushi),
+
+    Food(
+        name: 'Запеченный ролл с лососсем',
+        description: 'Суши рис, лосось, сыр кремета, огурцы свежие',
+        imagePath: 'lib/images/sushi/bakedsalmon.png',
+        price: 3000,
+        availableAddons: [],
+        category: FoodCategory.sushi),
+
+    Food(
+        name: 'Темпура микс',
+        description: 'Суши рис, угорь, сыр кремета, огурцы свежие',
+        imagePath: 'lib/images/sushi/tempuramix.png',
+        price: 3600,
+        availableAddons: [],
+        category: FoodCategory.sushi),
+
+    Food(
+        name: 'Снежный краб',
+        description:
+            'Суши рис, снежный краб, кремета, огурцы свежие, лосось, соус унаги-майо',
+        imagePath: 'lib/images/sushi/snowycrab.png',
+        price: 2700,
+        availableAddons: [],
+        category: FoodCategory.sushi),
+
+    Food(
+        name: 'Ролл с авокадо и лососсем',
+        description:
+            'Суши рис, лосось, авокадо, кремета, огурцы свежие, соус спайси-майо',
+        imagePath: 'lib/images/sushi/avokadoandsalmon.png',
+        price: 3600,
+        availableAddons: [],
+        category: FoodCategory.sushi),
+
+    Food(
+        name: 'Канада ролл',
+        description:
+            'Суши рис, лосось, авокадо, кремета, огурцы свежие, соус спайси-майо',
+        imagePath: 'lib/images/sushi/canadian.png',
+        price: 4100,
+        availableAddons: [],
+        category: FoodCategory.sushi),
+
+    Food(
+        name: 'Калифорния',
+        description:
+            'Суши рис, лосось, авокадо, кремета, огурцы свежие, соус спайси-майо',
+        imagePath: 'lib/images/sushi/california.png',
+        price: 1950,
         availableAddons: [],
         category: FoodCategory.sushi),
   ];

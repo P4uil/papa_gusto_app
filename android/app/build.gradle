@@ -9,6 +9,8 @@ plugins {
 }
 
 android {
+    namespace 'com.example.papa_gusto_app.fluttercreditcard' // Replace with the appropriate namespace
+
     namespace = "com.example.papa_gusto_app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion

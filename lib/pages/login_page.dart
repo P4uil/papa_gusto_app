@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:papa_gusto_app/components/my_button.dart';
 import 'package:papa_gusto_app/components/my_textfield.dart';
@@ -20,11 +22,11 @@ class _LoginPageState extends State<LoginPage> {
   //login method
   void login() async {
     //get instance auth service
-    final _authService = AuthService();
+    final authService = AuthService();
 
     //try sign in
     try {
-      await _authService.signInWithEmailPassword(
+      await authService.signInWithEmailPassword(
         emailController.text,
         passwordController.text,
       );

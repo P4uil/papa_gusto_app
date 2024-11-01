@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:papa_gusto_app/components/my_button.dart';
 import 'package:papa_gusto_app/components/my_textfield.dart';
@@ -21,13 +23,13 @@ class _RegisterPageState extends State<RegisterPage> {
   //registter method
   void register() async {
     //get auth service
-    final _authService = AuthService();
+    final authService = AuthService();
 
     //check if passwords math -> create user
     if (passwordController.text == confirmPasswordController.text) {
       //try creating user
       try {
-        await _authService.signUpWithEmailPassword(
+        await authService.signUpWithEmailPassword(
           emailController.text,
           passwordController.text,
         );

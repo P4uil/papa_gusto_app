@@ -20,7 +20,21 @@ class Food {
 enum FoodCategory {
   pizzas,
   sushi,
-  panaucio,
+  sides,
+}
+
+//russion localised
+extension FoodCategoryExtension on FoodCategory {
+  String get displayName {
+    switch (this) {
+      case FoodCategory.pizzas:
+        return 'Пиццы';
+      case FoodCategory.sushi:
+        return 'Суши';
+      case FoodCategory.sides:
+        return 'Закуски';
+    }
+  }
 }
 
 //food addons
