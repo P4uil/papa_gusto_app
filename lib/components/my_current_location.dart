@@ -1,38 +1,97 @@
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
 import 'package:papa_gusto_app/models/restaurant.dart';
 import 'package:provider/provider.dart';
 
-class MyCurrentLocation extends StatelessWidget {
-  MyCurrentLocation({super.key});
+class MyCurrentLocation extends StatefulWidget {
+  const MyCurrentLocation({Key? key}) : super(key: key);
 
+  @override
+  _MyCurrentLocationState createState() => _MyCurrentLocationState();
+}
+
+class _MyCurrentLocationState extends State<MyCurrentLocation> {
   final textController = TextEditingController();
+  bool isManualAddress = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentAddress(); // Fetch and display the initial location address
+  }
+
+  Future<void> _getCurrentAddress() async {
+    try {
+      Position position = await _determinePosition();
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+      Placemark place = placemarks[0];
+      setState(() {
+        textController.text = "${place.street}, ${place.locality}";
+      });
+      context.read<Restaurant>().updateDeliveryAddress(textController.text);
+      isManualAddress = false; // Reset manual flag on auto address set
+    } catch (e) {
+      textController.text = "Не удалось определить адрес";
+    }
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition();
+  }
 
   void openLocationSearchBox(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        //add current user geolocation
         title: const Text('Введите адрес'),
         content: TextField(
           controller: textController,
           decoration: const InputDecoration(hintText: "Введите адрес"),
+          onChanged: (value) {
+            isManualAddress = true;
+          },
         ),
         actions: [
-          //cancel button
           MaterialButton(
-              onPressed: () {
-                Navigator.pop(context);
-                textController.clear();
-              },
-              child: const Text('Отмена')),
-
-          //save button
+            onPressed: () {
+              Navigator.pop(context);
+              _getCurrentAddress(); // Reset to auto-detected address on cancel
+            },
+            child: const Text('Отмена'),
+          ),
           MaterialButton(
             onPressed: () {
               String newAddress = textController.text;
               context.read<Restaurant>().updateDeliveryAddress(newAddress);
               Navigator.pop(context);
-              textController.clear();
+              setState(() {
+                isManualAddress = true;
+              });
             },
             child: const Text('Сохранить'),
           ),
@@ -56,21 +115,21 @@ class MyCurrentLocation extends StatelessWidget {
             onTap: () => openLocationSearchBox(context),
             child: Row(
               children: [
-                //address
                 Consumer<Restaurant>(
                   builder: (context, restaurant, child) => Text(
-                    restaurant.deliveryAddress,
+                    isManualAddress
+                        ? restaurant.deliveryAddress
+                        : textController.text,
                     style: TextStyle(
-                        color: Theme.of(context).colorScheme.inversePrimary,
-                        fontWeight: FontWeight.bold),
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-
-                //drop down menu
                 const Icon(Icons.keyboard_arrow_down_rounded),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
