@@ -30,7 +30,8 @@ class _MyCurrentLocationState extends State<MyCurrentLocation> {
       );
       Placemark place = placemarks[0];
       setState(() {
-        textController.text = "${place.street}, ${place.locality}";
+        textController.text =
+            "${place.street}, ${place.locality}"; // adjust location accuracy
       });
       context.read<Restaurant>().updateDeliveryAddress(textController.text);
       isManualAddress = false; // Reset manual flag on auto address set

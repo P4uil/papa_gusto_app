@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:papa_gusto_app/models/cart_item.dart';
 import 'package:papa_gusto_app/models/food.dart';
+import 'package:http/http.dart' as http;
 
 class Restaurant extends ChangeNotifier {
   //list of food menu
@@ -204,126 +205,69 @@ class Restaurant extends ChangeNotifier {
         category: FoodCategory.sushi),
   ];
 
-  //user cart
+  // user cart
   final List<CartItem> _cart = [];
-
-  //delivery address (which user can change/update)
-  //add user current location
   String _deliveryAddress = 'Введите адрес';
 
-  //getters
   List<Food> get menu => _menu;
   List<CartItem> get cart => _cart;
   String get deliveryAddress => _deliveryAddress;
 
-  //operations
-
-  //add to cart
   void addToCart(Food food, List<Addon> selectedAddons) {
-    //see if there is cart item already with the same food and selected addons
-    CartItem? cartItem = _cart.firstWhereOrNull((item) {
-      //check if the food items are the same
-      bool isSameFood = item.food == food;
+    CartItem? cartItem = _cart.firstWhereOrNull((item) =>
+        item.food == food &&
+        const ListEquality().equals(item.selectedAddons, selectedAddons));
 
-      //check if the list of selected addons are the same
-      bool isSameAddons =
-          const ListEquality().equals(item.selectedAddons, selectedAddons);
-
-      return isSameFood && isSameAddons;
-    });
-
-    //if item already exests, increase its quantity
     if (cartItem != null) {
       cartItem.quantity++;
-    }
-    //otherwise add a new item to the cart
-    else {
-      _cart.add(
-        CartItem(
-          food: food,
-          selectedAddons: selectedAddons,
-        ),
-      );
+    } else {
+      _cart.add(CartItem(food: food, selectedAddons: selectedAddons));
     }
     notifyListeners();
   }
 
-  //remove from cartre
   void removeFromCart(CartItem cartItem) {
     int cartIndex = _cart.indexOf(cartItem);
-
     if (cartIndex != -1) {
-      if (_cart[cartIndex].quantity > 1) {
-        _cart[cartIndex].quantity--;
-      } else {
-        _cart.removeAt(cartIndex);
-      }
+      _cart[cartIndex].quantity > 1
+          ? _cart[cartIndex].quantity--
+          : _cart.removeAt(cartIndex);
     }
-
     notifyListeners();
   }
 
-  //get total price cart
   int getTotalPrice() {
-    int total = 0;
-
-    for (CartItem cartItem in _cart) {
-      int itemTotal = cartItem.food.price;
-
-      for (Addon addon in cartItem.selectedAddons) {
-        itemTotal += addon.price;
-      }
-
-      total += itemTotal * cartItem.quantity;
-    }
-
-    return total;
+    return _cart.fold(0, (total, cartItem) {
+      int itemTotal = cartItem.food.price +
+          cartItem.selectedAddons.fold(0, (sum, addon) => sum + addon.price);
+      return total + itemTotal * cartItem.quantity;
+    });
   }
 
-  //get total number of items in cart
-  int getTotalItemCount() {
-    int totalItemCount = 0;
+  int getTotalItemCount() =>
+      _cart.fold(0, (total, item) => total + item.quantity);
 
-    for (CartItem cartItem in _cart) {
-      totalItemCount += cartItem.quantity;
-    }
-
-    return totalItemCount;
-  }
-
-  //clear cart
   void clearCart() {
     _cart.clear();
     notifyListeners();
   }
 
-  //update delivery address
   void updateDeliveryAddress(String newAddress) {
     _deliveryAddress = newAddress;
     notifyListeners();
   }
 
-  //helpers
-
-  //generate a reciept
   String displayCartReceipt() {
     final receipt = StringBuffer();
-    receipt.writeln('Ваш чек.');
-    receipt.writeln();
-
-    //format date to include up to  seconds only
-    String formattedDate =
-        DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
-
-    receipt.writeln(formattedDate);
-    receipt.writeln();
-    receipt.writeln('------------');
+    receipt
+      ..writeln('Ваш чек.')
+      ..writeln()
+      ..writeln(DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()))
+      ..writeln()
+      ..writeln('------------');
 
     for (final cartItem in _cart) {
-      // Рассчитайте общую цену для данного товара с учетом количества
       final totalPrice = cartItem.quantity * cartItem.food.price;
-
-      // Печатаем количество, название и общую цену для позиции
       receipt.writeln(
           '${cartItem.quantity} x ${cartItem.food.name} - ${_formatPrice(totalPrice)}');
 
@@ -334,25 +278,45 @@ class Restaurant extends ChangeNotifier {
       receipt.writeln();
     }
 
-    receipt.writeln('------------');
-    receipt.writeln();
-    receipt.writeln('Всего позиций: ${getTotalItemCount()}');
-    receipt.writeln('Итого: ${_formatPrice(getTotalPrice())}');
-    receipt.writeln();
-    receipt.writeln('Доставка: $deliveryAddress');
+    receipt
+      ..writeln('------------')
+      ..writeln()
+      ..writeln('Всего позиций: ${getTotalItemCount()}')
+      ..writeln('Итого: ${_formatPrice(getTotalPrice())}')
+      ..writeln()
+      ..writeln('Доставка: $deliveryAddress');
 
     return receipt.toString();
   }
 
-  //format int ot money
-  String _formatPrice(int price) {
-    return '${price.toStringAsFixed(2)}₸';
-  }
+  String _formatPrice(int price) => '${price.toStringAsFixed(2)}₸';
 
-  //format list of addons to a string summary
   String _formatAddons(List<Addon> addons) {
     return addons
         .map((addon) => '${addon.name} (${_formatPrice(addon.price)})')
         .join(', ');
+  }
+
+  Future<void> sendOrderNotificationToTelegram() async {
+    final String botToken = '7343125990:AAEIOojjHOjxe88AIPgDwz5-brgFwiFfUiw';
+    final String chatId = '633191182';
+
+    final String message = displayCartReceipt();
+    final url = Uri.parse('https://api.telegram.org/bot$botToken/sendMessage');
+
+    final response = await http.post(
+      url,
+      body: {
+        'chat_id': chatId,
+        'text': message,
+      },
+    );
+
+    if (response.statusCode != 200) {
+      print('Ошибка: ${response.body}');
+      throw Exception('Не удалось отправить сообщение в Telegram');
+    } else {
+      print('Успешно отправлено в Telegram');
+    }
   }
 }
