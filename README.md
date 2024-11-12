@@ -1,16 +1,14 @@
 # papa_gusto_app
 
-papa_gusto_app
+Commercial application for a pizzeria named Papa Gusto (not yet completed)
 
-## Getting Started
+**About project:** Commercial application for a pizzeria named Papa Gusto, connected to a Firestore database and a Telegram bot for sending notifications to the cook, with payment integration via Kaspi.kz and delivery functionality.
 
-This project is a starting point for a Flutter application.
+**RUN GUIDE:** 
+* download project
+* open with any SDK
+* run
 
-A few resources to get you started if this is your first Flutter project:
+**SCREENSHOTS:** 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
