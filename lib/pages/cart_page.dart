@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:papa_gusto_app/components/my_button.dart';
 import 'package:papa_gusto_app/components/my_cart_tile.dart';
 import 'package:papa_gusto_app/models/restaurant.dart';
+import 'package:papa_gusto_app/pages/delivery_progress_page.dart';
 import 'package:papa_gusto_app/pages/payment_page.dart';
 import 'package:provider/provider.dart';
 
@@ -82,7 +83,7 @@ class CartPage extends StatelessWidget {
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const PaymentPage())),
+                        builder: (context) => const DeliveryProgressPage())),
                 text: 'Перейти к оплате',
               ),
 
