@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:papa_gusto_app/models/cart_item.dart';
 import 'package:papa_gusto_app/models/food.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class Restaurant extends ChangeNotifier {
   //list of food menu
@@ -297,26 +298,19 @@ class Restaurant extends ChangeNotifier {
         .join(', ');
   }
 
-  Future<void> sendOrderNotificationToTelegram() async {
-    final String botToken = '7343125990:AAEIOojjHOjxe88AIPgDwz5-brgFwiFfUiw';
-    final String chatId = '633191182';
+  Future<void> sendOrderNotificationToWhatsApp() async {
+    final String phoneNumber = '+77054109814';
+    final String message = Uri.encodeComponent(displayCartReceipt());
+    final Uri url = Uri.parse('https://wa.me/$phoneNumber?text=$message');
 
-    final String message = displayCartReceipt();
-    final url = Uri.parse('https://api.telegram.org/bot$botToken/sendMessage');
-
-    final response = await http.post(
-      url,
-      body: {
-        'chat_id': chatId,
-        'text': message,
-      },
-    );
-
-    if (response.statusCode != 200) {
-      print('Ошибка: ${response.body}');
-      throw Exception('Не удалось отправить сообщение в Telegram');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(
+        url,
+        mode: LaunchMode
+            .externalApplication, // Убедимся, что открываем во внешнем приложении.
+      );
     } else {
-      print('Успешно отправлено в Telegram');
+      throw Exception('Не удалось отправить сообщение в WhatsApp');
     }
   }
 }

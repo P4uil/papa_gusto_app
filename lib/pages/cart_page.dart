@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:papa_gusto_app/components/my_button.dart';
 import 'package:papa_gusto_app/components/my_cart_tile.dart';
 import 'package:papa_gusto_app/models/restaurant.dart';
-import 'package:papa_gusto_app/pages/delivery_progress_page.dart';
 import 'package:papa_gusto_app/pages/payment_page.dart';
 import 'package:provider/provider.dart';
 
@@ -13,17 +12,17 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<Restaurant>(
       builder: (context, restaurant, child) {
-        //cart
+        // Корзина
         final userCart = restaurant.cart;
 
-        //scaffold UI
+        // UI Scaffold
         return Scaffold(
           appBar: AppBar(
             title: const Text('Корзина'),
             backgroundColor: Colors.transparent,
             foregroundColor: Theme.of(context).colorScheme.inversePrimary,
             actions: [
-              //clear cart button
+              // Кнопка очистки корзины
               IconButton(
                   onPressed: () {
                     showDialog(
@@ -32,12 +31,12 @@ class CartPage extends StatelessWidget {
                               title: const Text(
                                   'Вы уверены что хотите очистить корзину?'),
                               actions: [
-                                //action button
+                                // Кнопка отмены
                                 TextButton(
                                     onPressed: () => Navigator.pop(context),
                                     child: const Text('Отмена')),
 
-                                //yes button
+                                // Кнопка подтверждения
                                 TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
@@ -52,7 +51,7 @@ class CartPage extends StatelessWidget {
           ),
           body: Column(
             children: [
-              //list of cart
+              // Список товаров в корзине
               Expanded(
                 child: Column(
                   children: [
@@ -66,10 +65,10 @@ class CartPage extends StatelessWidget {
                             child: ListView.builder(
                               itemCount: userCart.length,
                               itemBuilder: (context, index) {
-                                //get individual cart item
+                                // Получить конкретный элемент корзины
                                 final cartItem = userCart[index];
 
-                                //return cart tileUI
+                                // Вернуть UI элемента корзины
                                 return MyCartTile(cartItem: cartItem);
                               },
                             ),
@@ -78,16 +77,30 @@ class CartPage extends StatelessWidget {
                 ),
               ),
 
-              //buttom to pay
+              // Кнопка оплаты
               MyButton(
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const DeliveryProgressPage())),
+                onTap: () async {
+                  // Отправка заказа в WhatsApp
+                  try {
+                    await restaurant.sendOrderNotificationToWhatsApp();
+                    // Переход к странице оплаты
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PaymentPage()),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Ошибка при отправке: $e'),
+                      ),
+                    );
+                  }
+                },
                 text: 'Перейти к оплате',
               ),
 
-              const SizedBox(height: 25)
+              const SizedBox(height: 25),
             ],
           ),
         );
